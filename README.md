@@ -1,7 +1,6 @@
-# Running_Nodejs_in_ASPNET_Core
-Running Nodejs Services in ASP.NET Core
+# Running Nodejs Services in ASP.NET Core
 
-###Introduction
+### Introduction
 ASP.NET Core continues to suprise developers in each release. Adding the ability to run Node Services is a great feature for developer who is already using node javascript. Here are some of the major benifits for having Node services in ASP.NET Core:
 - Reuse your favorite node modules or libaries from server-side
 - Server-side prerendering can speed up the page load time
