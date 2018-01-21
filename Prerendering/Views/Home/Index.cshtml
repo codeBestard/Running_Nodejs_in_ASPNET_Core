@@ -1,0 +1,10 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+
+    const string prefix = "hello it's now:";
+}
+
+<div id="mydiv" 
+     asp-prerender-module="./JavaScripts/demo.js"
+     asp-prerender-data  ="new { @prefix }">
+</div>
