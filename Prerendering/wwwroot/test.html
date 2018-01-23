@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+<body>
+<div ng-app="app">
+
+
+        <div ng-controller="myController as main">
+
+            {{ ::main.name }}
+        </div>
+
+        <hr>
+        <my-directive></my-directive>
+
+        <hr>
+        <app-component> </app-component>
+
+</div>
+
+<script>
+
+
+    // app module
+	let appmodule = angular.module("app", []);
+
+    // controller
+    let controllerFunc = function(){
+        this.name = "I am a plain controller"
+    };
+    appmodule.controller("myController", [controllerFunc]);
+
+
+    // directive
+    let directive = {
+        template: `<h2> {{ ctrl.message }} </h2>`,
+
+        controller: [function(){
+            this.message = "I am a directive";
+        }],
+        controllerAs: "ctrl"
+    };
+    appmodule.directive("myDirective", function(){
+        return directive;
+    })
+
+
+    // component
+    var component = {
+        template: `<p>Input something in the input box:</p>
+        <p>Name : <input type="text" ng-model="name" placeholder="Enter name here"></p>
+        <h1>Hello <em>{{  compAs.name }}</em></h1>
+        <div> {{ compAs.data | json : 4  }} </div>
+        `,
+
+        controller: ["dataService", function(dataService){
+            let vm = this;
+            this.$onInit = function(){
+                this.name = "I am a component!!";
+
+                dataService.getData()
+                             .then(d => {
+                                 this.data = d;
+                                 console.log(this.data);
+                             });
+            };
+
+        }],
+
+        controllerAs: "compAs"
+    };
+    appmodule.component("appComponent", component);
+
+    // service
+    appmodule.service("dataService", ["$http", function($http){
+        this.getData =   function(){
+            return  $http.get("https://jsonplaceholder.typicode.com/posts/1")
+                    .then(res => {
+                        let data = res.data
+                        console.log(data);
+                        return data
+                    });
+        }
+    }]);
+
+   // angular.bootstrap(document.documentElement, ["app"]);
+
+</script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+
+    <div>
+        <app></app>
+    </div>
+
+
+    <script src="https://code.angularjs.org/1.6.1/angular.min.js"></script>
+
+    <script>
+
+        const app = {
+            template: `
+                <div >
+                    <div ng-repeat="item in $ctrl.posts">
+                        <section>
+                            <article>
+                                    <header> {{$index + 1}} - {{item.Title}} </header>
+                                    <p>    content:   {{ item.Content}} </p>
+                                    <p>     votes -  {{ item.TotalPoints }} </p>
+                            </article>
+                        </section>
+                    </div>
+                <div>
+            `,
+            controller: ["postService", function (postService){
+                this.$onInit = function() {
+                    postService.getPosts()
+                               .then(d => this.posts = d);
+                };
+                this.getPost = function(id) {
+                };
+                this.addPost = function(){
+                };
+                this.votePost = function(postId){
+                };
+            }]
+        };
+
+
+        let appModule = angular.module("app", [])
+
+        appModule.component("app", app);
+
+        appModule.service("postService", ["$http", function($http){
+            this.getPosts = function(){
+                return $http.get("http://localhost:50266/api/post")
+                            .then(res => res.data);
+            }
+            this.getPost = function (id){
+            }
+            this.addPost = function(){
+            };
+            this.votePost = function(postId){
+            }
+        }]);
+
+        angular.bootstrap(document.documentElement, ["app"]);
+    </script>
+
+</body>
+</html>
